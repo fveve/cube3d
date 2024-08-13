@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:33:34 by arafa             #+#    #+#             */
-/*   Updated: 2024/07/30 09:55:28 by arafa            ###   ########.fr       */
+/*   Updated: 2024/08/13 15:06:00 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	print_tab(char **tab)
 
 void	print_map_data(t_map_data *map_data)
 {
-	printf("%s\n", map_data->NO);
-	printf("%s\n", map_data->SO);
-	printf("%s\n", map_data->EA);
-	printf("%s\n", map_data->WE);
+	printf("NO : %s\n", map_data->texture_txt[0]);
+	printf("SO : %s\n", map_data->texture_txt[1]);
+	printf("WE : %s\n", map_data->texture_txt[2]);
+	printf("EA : %s\n", map_data->texture_txt[3]);
 }

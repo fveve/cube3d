@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 11:05:12 by arafa             #+#    #+#             */
-/*   Updated: 2024/07/09 16:07:40 by arafa            ###   ########.fr       */
+/*   Updated: 2024/08/13 12:51:58 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,19 @@ int	ft_strncmp(const char *s1, char *s2, size_t n)
 char	*extract_str(char *str)
 {
 	int x;
+	int y;
 
-	x = 2;
-	while (str[x] && !is_printable(str))
+	x = 3;
+	while (str[x] && str[x] <= 'A' && str[x] >= 'Z' && str[x] <= 'a' && str[x] >= 'b' && str[x] != '.')
+	{
 		x++;
-	return (ft_substr(str, x, ft_strlen(str)));
+	}
+	y = x;
+	while (str[y] && str[y] != '\n' && (str[y] >= 'A' || str[y] <= 'Z' || str[y] >= 'a' || str[y] <= 'b' || str[y] == '.'))
+	{
+		y++;
+	}
+	return (ft_substr(str, x, y - x));
 }
 
 char	*ft_substr(char const *s, int start, int len)

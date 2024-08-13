@@ -1,36 +1,38 @@
 #include "cube3d.h"
 
-t_img	*init_img(void *mlx, int trigger)
+t_img	*init_img(void *mlx,  char *texture, int trigger)
 {
 	t_img	*data;
 	int		h;
 	int		w;
 
-	w = (trigger == 1) ? TEX_WIDTH : 0;
-	h = (trigger == 1) ? TEX_HEIGHT : 0;
+	w =  TEX_WIDTH;
+	h =  TEX_HEIGHT;
 	data = malloc(sizeof(t_img));
-	data->img = (trigger == 0) ? mlx_new_image(mlx, SCREEN_HEIGHT, SCREEN_WIDTH) : mlx_xpm_file_to_image(mlx, "./mur.xpm", &w, &h);
+	//printf("str54 : ,%s,\n", texture);
+	data->img = (trigger == 0) ? mlx_new_image(mlx, SCREEN_HEIGHT, SCREEN_WIDTH) : mlx_xpm_file_to_image(mlx, texture, &w, &h);
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length,
 								&data->endian);
 	return (data);
 }
 
-void	init_mlx_data(t_mlx_data *data)
+void	init_mlx_data(t_mlx_data *data, char *texture[4])
 {
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, SCREEN_HEIGHT, SCREEN_WIDTH, "boxeo");
-	data->texture = init_img(data->mlx, 1);
-	data->img = init_img(data->mlx, 0);
+	for (int x = 0; x < 4; x++)
+		data->texture[x] = init_img(data->mlx, texture[x], 1);
+	data->img = init_img(data->mlx,"", 0);
 }
 
 void	init_map_data(t_map_data *data, char **argv)
 {
 	data->pos_x = 0.0;
 	data->pos_y = 0.0;
-	data->NO = NULL;
-	data->SO = NULL;
-	data->WE = NULL;
-	data->EA = NULL;
+	data->texture_txt[0] = NULL;
+	data->texture_txt[1] = NULL;
+	data->texture_txt[2] = NULL;
+	data->texture_txt[3] = NULL;
 	data->F = NULL;
 	data->C = NULL;
 	data->map = NULL;
@@ -69,7 +71,6 @@ void	init_trace_data(t_map_data *map_data, t_trace_data *data, t_mlx_data *mlx_d
 	data->w = SCREEN_WIDTH;
 	data->xcolor = 0;
 	data->ycolor = 0;
-	data->texNum = 0;
 	data->texX = 0;
 	data->color = 0;
 	data->texY = 0;
@@ -83,5 +84,5 @@ void	init_data(t_data *data, char **argv)
 	data->mlx_data = (t_mlx_data *)malloc(sizeof(t_mlx_data));
 	init_map_data(data->map_data, argv);
 	init_trace_data(data->map_data, data->trace_data, data->mlx_data);
-	init_mlx_data(data->mlx_data);
+	init_mlx_data(data->mlx_data, data->map_data->texture_txt);
 }

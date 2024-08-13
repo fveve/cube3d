@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:53:40 by arafa             #+#    #+#             */
-/*   Updated: 2024/08/05 14:14:26 by arafa            ###   ########.fr       */
+/*   Updated: 2024/08/13 15:15:15 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,53 +22,39 @@ double ft_abs(double nb)
 
 int	get_pixel(t_img *data, int x, int y)
 {
-	int color;
-
-	color = data->addr[x * y];
+	char *dst;
+	int	color;
+	
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel /8) ) ;
+	//printf("color : %d\n", color);
+	color = *(unsigned int *)dst;
 	return (color);
 }
 
-void	my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-	int len;
+	char	*dst;
+	
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
 
-	len = SCREEN_WIDTH; /* En réalité, il s'agit de la longueur de votre image. Ici, mon image et ma fenêtre font la même taille */
-	/* in this part you'll see how i decompose a decimal color in a third part decimal color rgb(255, 255, 255) */
-	/* Dans cette partie, voici comment je decompose une couleur decimal en une couleur décimale en trois partie rgb(255, 255, 255) */
-	r = (color >> 16) & 0xff;
-	g = (color >> 8) & 0xff;
-	b = color & 0xff;
-	/* (x * 4) + (len * 4 * y) : cible le premier bit d'un pixel */
-	data->img->addr[(x * 4) + (len * 4 * y)] = b;
-	data->img->addr[(x * 4) + (len * 4 * y) + 1] = g;
-	data->img->addr[(x * 4) + (len * 4 * y) + 2] = r;
-	data->img->addr[(x * 4) + (len * 4 * y) + 3] = 0;
 }
 
-void	verline(t_trace_data *data, int x, unsigned int buffer[SCREEN_HEIGHT][SCREEN_WIDTH])
+void	draw_buffer(t_trace_data *data)
 {
-	for (int z = 0; z < data->drawStart; z++)
+	for (int x = 0; x < SCREEN_HEIGHT; x++)
 	{
-        my_mlx_pixel_put(data->mlx_data, x, z, data->map_data->F_color);
-	}
-	
-    for (int y = data->drawStart; y <= data->drawEnd; y++) {
-        	my_mlx_pixel_put(data->mlx_data, x, y,  buffer[y][x]);
-    }
-	
-	for (int z = data->drawEnd;  z < data->w; z++)
-	{
-        my_mlx_pixel_put(data->mlx_data, x, z, data->map_data->C_color);	
-	}
+		for (int y = 0; y < SCREEN_WIDTH; y++)
+		{
+			my_mlx_pixel_put(data->mlx_data->img, x, y, data->buffer[y][x]);
+		}
+	}	
 }
 
 int input(int key, t_data *data)
 {
-	printf("1\n");
-	printf("key : %d\n", key);
+	//printf("1\n");
+	//printf("key : %d\n", key);
 	mlx_do_key_autorepeaton(data->mlx_data->mlx);
 	if (key == KEY_UP || key == KEY_W)
     {
@@ -126,8 +112,24 @@ int input(int key, t_data *data)
 
 int	ft_render(t_data *data)
 {
+	int *texture[8];
+	
+	for (int z = 0; z < 4; z++)
+	{
+		texture[z] = malloc(sizeof(int) * TEX_HEIGHT * TEX_WIDTH);
+		for(int x = 0; x < TEX_WIDTH; x++)
+		{
+			for(int y = 0; y < TEX_HEIGHT; y++)
+			{
+				texture[z][TEX_HEIGHT * y + x] = get_pixel(data->mlx_data->texture[z], x, y);
+			}
+		}
+	}
+	int count = 0;
 	for (int x = 0; x < SCREEN_WIDTH; x++)
 	{
+		if (count == SCREEN_HEIGHT)
+			count = 0;
 		data->trace_data->cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
 		data->trace_data->rayDirX = data->trace_data->dirX + data->trace_data->planeX * data->trace_data->cameraX;
 		data->trace_data->rayDirY = data->trace_data->dirY + data->trace_data->planeY * data->trace_data->cameraX;
@@ -191,7 +193,6 @@ int	ft_render(t_data *data)
 		data->trace_data->drawEnd = data->trace_data->lineHeight / 2 + SCREEN_HEIGHT / 2;
 		if (data->trace_data->drawEnd >= SCREEN_HEIGHT)
 			data->trace_data->drawEnd = SCREEN_HEIGHT - 1;
-		data->trace_data->texNum = data->map_data->map[data->trace_data->mapX][data->trace_data->mapY] - 49; //1 subtracted from it so that texture 0 can be used!
       //calculate value of wallX
        //where exactly the wall was hit
 		if (data->trace_data->side == 0)
@@ -209,27 +210,44 @@ int	ft_render(t_data *data)
 		data->trace_data->step = 1.0 * TEX_HEIGHT / data->trace_data->lineHeight;
 		// Starting texture coordinate
 		data->trace_data->texPos = (data->trace_data->drawStart - data->trace_data->h / 2 + data->trace_data->lineHeight / 2) * data->trace_data->step;
-		for(int y = data->trace_data->drawStart; y < data->trace_data->drawEnd; y++)
+		for(int z = 0; z < data->trace_data->drawStart - 1; z++)
 		{
+			//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"                                     
+			data->trace_data->buffer[z][x] = data->map_data->F_color;
+		}
+		for(int y = data->trace_data->drawStart; y < data->trace_data->drawEnd; y++)
+    	{
+
 			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
 			data->trace_data->texY = (int)data->trace_data->texPos & (TEX_HEIGHT - 1);
 			data->trace_data->texPos += data->trace_data->step;
-			data->trace_data->color = get_pixel(data->mlx_data->texture, x, y);
-			//printf("data->trace_data->texNum %d, TEX_HEIGHT * data->trace_data->texY + data->trace_data->texX : %d\n",data->trace_data->texNum,  TEX_HEIGHT * data->trace_data->texY + data->trace_data->texX);
+				//printf("count : %d\n", count);
+				if (data->trace_data->side == 0 && data->trace_data->stepX == 1)
+					data->trace_data->color = texture[0][TEX_HEIGHT * data->trace_data->texY + data->trace_data->texX];
+				else if (data->trace_data->side == 0)
+					data->trace_data->color = texture[1][TEX_HEIGHT * data->trace_data->texY + data->trace_data->texX];
+				else if (data->trace_data->stepY == 1)
+					data->trace_data->color = texture[3][TEX_HEIGHT * data->trace_data->texY + data->trace_data->texX];
+				else if (data->trace_data->side == 1)
+					data->trace_data->color = texture[2][TEX_HEIGHT * data->trace_data->texY + data->trace_data->texX];
+					
+			
+			 if(data->trace_data->side == 1) 
+			 	data->trace_data->color = (data->trace_data->color >> 1) & 8355711;
 			//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-			if(data->trace_data->side == 1)
-				data->trace_data->color = (data->trace_data->color >> 1) & 8355711;
 			data->trace_data->buffer[y][x] = data->trace_data->color;
 		}
-		verline(data->trace_data,x,data->trace_data->buffer);
-		for(int y = 0; y < data->trace_data->h; y++)
+				for(int z = data->trace_data->drawEnd; z < SCREEN_HEIGHT; z++)
 		{
-			for(int x = 0; x < data->trace_data->w; x++)
-			{
-				data->trace_data->buffer[y][x] = 0;
-			}
+			//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+			data->trace_data->buffer[z][x] = data->map_data->C_color;
 		}
+		count ++;
 	}
+	for(int x = 0; x < 8; x++)
+		free(texture[x]);
+	draw_buffer(data->trace_data);
+	for(int y = 0; y < SCREEN_HEIGHT; y++) for(int x = 0; x < SCREEN_WIDTH; x++) data->trace_data->buffer[y][x] = 0;
 	mlx_put_image_to_window(data->mlx_data->mlx, data->mlx_data->window, data->mlx_data->img->img, 0, 0);
 	return (0);
 }
@@ -245,8 +263,8 @@ int	main (int argc, char **argv)
 	}
 	init_data(&data, argv);
 	mlx_loop_hook(data.mlx_data->mlx, ft_render, &data);
-	mlx_hook(data.mlx_data->window, 2, 1L<<0, &input, &data); /* ADDED */
-	mlx_key_hook(data.mlx_data->window, input, &data);
+	mlx_hook(data.mlx_data->window, 2, 1L<<0, &input, &data);
+	mlx_hook(data.mlx_data->window, 17, 1L<<0, exit_manager, &data);
 	mlx_loop(data.mlx_data->mlx);
 	exit_manager(&data);
 }

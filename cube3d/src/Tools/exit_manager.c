@@ -14,9 +14,17 @@ void	free_tab(char **tab)
 		free(tab);
 }
 
+void	free_img_data(void *mlx, t_img *data)
+{
+	mlx_destroy_image(mlx,data->img);
+	free(data);
+}
+
 void	free_mlx_data(t_mlx_data *data)
 {
-	mlx_destroy_image(data->mlx, data->img);
+	free_img_data(data->mlx, data->img);
+	for(int x = 0; x < 4; x++)
+		free_img_data(data->mlx, data->texture[x]);
     mlx_destroy_window(data->mlx, data->window);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
@@ -31,21 +39,16 @@ void	free_map_data(t_map_data *map_data)
 		free(map_data->C);
 	if (map_data->F)
 		free(map_data->F);
-	if (map_data->WE)
-		free(map_data->WE);
-	if (map_data->NO)
-		free(map_data->NO);
-	if (map_data->EA)
-		free(map_data->EA);
-	if (map_data->SO)
-		free(map_data->SO);
+	if (map_data->texture_txt[0])
+		free_tab(map_data->texture_txt);
 	free(map_data);
 }
 
-void	exit_manager(t_data *data)
+int	exit_manager(t_data *data)
 {
 	free_map_data(data->map_data);
 	free_mlx_data(data->mlx_data);
 	free(data->trace_data);
 	exit(0);
+	return (0);
 }

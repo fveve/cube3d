@@ -35,13 +35,13 @@
 
 # define	KEY_ESCAPE 65307
 
-# define	SCREEN_HEIGHT 800
+# define	SCREEN_HEIGHT 500
 
-# define	SCREEN_WIDTH 800
-
-# define	TEX_WIDTH	64
+# define	SCREEN_WIDTH 500
 
 # define	TEX_HEIGHT	64
+
+# define	TEX_WIDTH	64
 
 //			   __________		     //
 //------------/Structures\----------//
@@ -51,10 +51,7 @@ typedef struct s_map_data
 	double	pos_x;
 	double	pos_y;
 
-	char	*NO;
-	char	*SO;
-	char	*WE;
-	char	*EA;
+	char	*texture_txt[4];
 	char	*F;
 	char	*C;
 	char	**map;
@@ -79,7 +76,7 @@ typedef struct s_mlx_data
 	void	*mlx;
 	void	*window;
 	t_img	*img;
-	t_img	*texture;
+	t_img	*texture[4];
 
 } t_mlx_data;
 
@@ -127,7 +124,6 @@ typedef struct s_trace_data
 	int			ycolor;
 	int			xcolor;
 	int			texY;
-	int			texNum;
 	int			texX;
 
 	unsigned int buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
@@ -178,7 +174,7 @@ void	print_map_data(t_map_data *map_data);
 
 //			exit_manager
 void	free_tab(char **tab);
-void	exit_manager(t_data *data);
+int	exit_manager(t_data *data);
 
 //				Error
 int		is_position(char c);
