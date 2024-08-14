@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:06:00 by arafa             #+#    #+#             */
-/*   Updated: 2024/08/14 12:35:04 by arafa            ###   ########.fr       */
+/*   Updated: 2024/08/14 14:36:39 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,6 @@ int	check_position(char **map)
 
 int	check_map(char **temp, int start, int x, int y)
 {
-	//printf("x : %d | y : %d \n", x, y);
-	//print_tab(temp);
 	if ((temp[x][y] == '0' ||  is_position(temp[x][y])) && check_boder(temp, x,y))
 		return (1);
 	else if (temp[x][y] == '0' || is_position(temp[x][y]))

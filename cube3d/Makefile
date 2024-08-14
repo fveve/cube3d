@@ -12,11 +12,11 @@ ERROR = check_error
 
 GNL = get_next_line
 
-MAIN = main
+MAIN = main render input
 
 INITIALIZATION = parse_map init_data
 
-TOOLS = exit_manager tools debug gnl_tools
+TOOLS = exit_manager tools debug gnl_tools render_tools
 
 SRC = $(addsuffix .c, $(addprefix src/GNL/, $(GNL)))\
 		$(addsuffix .c, $(addprefix src/Initialization/, $(INITIALIZATION)))\

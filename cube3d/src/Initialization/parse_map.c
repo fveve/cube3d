@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 09:52:22 by arafa             #+#    #+#             */
-/*   Updated: 2024/08/14 12:16:21 by arafa            ###   ########.fr       */
+/*   Updated: 2024/08/14 14:37:28 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ void	set_color(char *F, int *F_color, int trigger)
 		if (F[x])
 			x++;
 	}
-//	printf("r : %d, g : %d, b : %d\n", r, g, b);
 	*F_color = r;
 	*F_color = (*F_color << 8) | g;
 	*F_color = (*F_color << 8) | b;
-//	printf("map_data->F_color : %d\n", *F_color);
 }
 
 int is_removable(char *s)
@@ -66,7 +64,7 @@ int is_removable(char *s)
 	return (0);
 }
 
-char **remove_space(char **map)//
+char **remove_space(char **map)
 {
 	char **temp;
 	int x;
@@ -169,12 +167,10 @@ void	set_pos(t_map_data *map_data)
 		x = 0;
 		while (map_data->map[y][x])
 		{
-			//printf("map[x]1 : %s\n", map_data->map[x]);
 			if (is_position(map_data->map[y][x]))
 			{
 				map_data->pos_y = (double)x;
 				map_data->pos_x = (double)y;
-				//printf("data->mapX : %f,  data->mapY : %f\n", map_data->pos_x,map_data->pos_y);
 				break ;
 			}
 			x++;
@@ -202,9 +198,5 @@ void	parse_map(t_map_data *map_data, char *file)
 	map_data->map = remove_space(map_data->map);
 	set_color(map_data->F, &map_data->F_color, 0);
 	set_color(map_data->C, &map_data->C_color, 0);
-	//print_map_data(map_data);
-	//print_tab(map_data->map);
 	set_pos(map_data);
-	//print_tab(map_data->map);
-	//print_map_data(map_data);
 }
