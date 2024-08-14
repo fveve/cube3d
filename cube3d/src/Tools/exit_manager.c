@@ -39,6 +39,8 @@ void	free_map_data(t_map_data *map_data)
 		free(map_data->C);
 	if (map_data->F)
 		free(map_data->F);
+	for (int x = 0; x < 4; x++)
+		free(map_data->texture_txt[x]);
 	free(map_data);
 }
 
