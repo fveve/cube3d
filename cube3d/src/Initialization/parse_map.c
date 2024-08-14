@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 09:52:22 by arafa             #+#    #+#             */
-/*   Updated: 2024/08/13 15:07:16 by arafa            ###   ########.fr       */
+/*   Updated: 2024/08/14 12:16:21 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	set_color(char *F, int *F_color, int trigger)
 			while (F[x] && F[x] != ',')
 				x++;
 		}
-		x++;
+		if (F[x])
+			x++;
 	}
 //	printf("r : %d, g : %d, b : %d\n", r, g, b);
 	*F_color = r;
@@ -130,22 +131,11 @@ int	init_textures(t_map_data *map_data, int fd, int trigger, int x)
 	while (tab && trigger < 6)
 	{
 		if (!ft_strncmp("NO", tab, 2) && trigger < 6)
-		{
 			map_data->texture_txt[0] = extract_str(tab);
-			printf("map_data->texture_txt[0] : ,%s,\n", map_data->texture_txt[0]);
-		}
 		else if (!ft_strncmp("SO", tab, 2) && trigger < 6)
-		{
 			map_data->texture_txt[1] = extract_str(tab);
-			printf("map_data->texture_txt[1] : ,%s,\n", map_data->texture_txt[1]);
-		}
 		else if (!ft_strncmp("WE", tab, 2) && trigger <6)
-		{
-
 			map_data->texture_txt[2] = extract_str(tab);
-			printf("map_data->texture_txt[2] : ,%s,\n", map_data->texture_txt[2]);
-
-		}
 		else if (!ft_strncmp("EA", tab, 2) && trigger < 6)
 			map_data->texture_txt[3] = extract_str(tab);
 		else if (!ft_strncmp("F", tab, 1) && trigger < 6)
@@ -191,8 +181,6 @@ void	set_pos(t_map_data *map_data)
 		}
 		y++;
 	}
-	//
-	printf("x : %d | y : %d\n", x, y);
 }
 
 void	parse_map(t_map_data *map_data, char *file)
@@ -214,7 +202,7 @@ void	parse_map(t_map_data *map_data, char *file)
 	map_data->map = remove_space(map_data->map);
 	set_color(map_data->F, &map_data->F_color, 0);
 	set_color(map_data->C, &map_data->C_color, 0);
-	print_map_data(map_data);
+	//print_map_data(map_data);
 	//print_tab(map_data->map);
 	set_pos(map_data);
 	//print_tab(map_data->map);

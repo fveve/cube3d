@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:53:40 by arafa             #+#    #+#             */
-/*   Updated: 2024/08/13 15:15:15 by arafa            ###   ########.fr       */
+/*   Updated: 2024/08/14 11:39:14 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ int	ft_render(t_data *data)
 		}
 		count ++;
 	}
-	for(int x = 0; x < 8; x++)
+	for(int x = 0; x < 4; x++)
 		free(texture[x]);
 	draw_buffer(data->trace_data);
 	for(int y = 0; y < SCREEN_HEIGHT; y++) for(int x = 0; x < SCREEN_WIDTH; x++) data->trace_data->buffer[y][x] = 0;

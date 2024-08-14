@@ -178,7 +178,7 @@ int	exit_manager(t_data *data);
 
 //				Error
 int		is_position(char c);
-int		check_error(t_map_data map_data);
+int		check_error(t_data *data, t_map_data map_data);
 
 //------------\_________/----------//
 #endif

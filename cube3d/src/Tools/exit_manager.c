@@ -39,8 +39,6 @@ void	free_map_data(t_map_data *map_data)
 		free(map_data->C);
 	if (map_data->F)
 		free(map_data->F);
-	if (map_data->texture_txt[0])
-		free_tab(map_data->texture_txt);
 	free(map_data);
 }
 

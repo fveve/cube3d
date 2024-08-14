@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:06:00 by arafa             #+#    #+#             */
-/*   Updated: 2024/08/03 09:25:26 by arafa            ###   ########.fr       */
+/*   Updated: 2024/08/14 12:35:04 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,11 @@ int	check_boder(char **map, int x, int y)
 
 int	check_textures(char *str)
 {
-	if (access(str, O_RDONLY) == -1)
+	if (access(str, F_OK | O_RDONLY) == -1)
 	{
 		free(str);
 		return (1);
 	}
-	free(str);
 	return (0);
 }
 
@@ -134,7 +133,7 @@ int	check_map(char **temp, int start, int x, int y)
 	return (0);
 }
 
-int	check_error(t_map_data map_data)
+int	check_error(t_data *data, t_map_data map_data)
 {
 	char **temp;
 	int	x;
@@ -142,30 +141,31 @@ int	check_error(t_map_data map_data)
 	
 	x = 0;
 	y = 0;
-	/*if (check_textures(map_data.WE) || check_textures(map_data.SO)
-			|| check_textures(map_data.NO) || check_textures(map_data.EA))
+	if (check_textures(map_data.texture_txt[0]) || check_textures(map_data.texture_txt[1])
+			|| check_textures(map_data.texture_txt[2]) || check_textures(map_data.texture_txt[3]))
 	{
 		printf("Error\nTexture problem\n");
-		exit_manager(map_data);
-	}*/
-	//printf("x : %d\n\n",x);
+		exit_manager(data);
+	}
 	temp = tab_dup((map_data.map));
 	if (check_position(temp))
 	{
 		free_tab(temp);
 		printf("Error\nPosition problem\n");
+		exit_manager(data);
 	}
 	if (check_map(temp,x ,  map_data.pos_x, map_data.pos_y))
 	{
 		free_tab(temp);
 		printf("Error\nMap must be close\n");
+		exit_manager(data);
 	}
-	/*if (check_color(map_data.C) || check_color(map_data.F))
+	if (check_color(map_data.C) || check_color(map_data.F))
 	{
 		free_tab(temp);
 		printf("Error\nWrong color number\n");
-	}*/
-	else
-		free_tab(temp);
+		exit_manager(data);
+	}
+	free_tab(temp);
 	return (0);
 }
