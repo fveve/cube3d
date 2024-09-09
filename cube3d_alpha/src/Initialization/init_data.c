@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: john <john@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 17:53:46 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/07 19:45:17 by john             ###   ########.fr       */
+/*   Updated: 2024/09/09 14:32:48 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ void	init_map_data(t_data *data, char **argv)
 	data->map_data->texture_txt[13] = NULL;
 	data->map_data->texture_txt[14] = NULL;
 	data->map_data->texture_txt[15] = NULL;*/
-	data->map_data->F = NULL;
-	data->map_data->C = NULL;
+	data->map_data->f = NULL;
+	data->map_data->c = NULL;
 	data->map_data->map = NULL;
 	data->map_data->num_doors = 0;
 	data->map_data->num_ennemies = 0;
@@ -139,85 +139,74 @@ void	init_map_data(t_data *data, char **argv)
 void	init_trace_data(t_map_data *map_data,
 		t_trace_data *data, t_mlx_data *mlx_data)
 {
-	data->cameraX = 0;
-	data->rayDirX = 0;
-	data->rayDirY = 0;
-	data->mapX = (int)map_data->pos_x;
-	data->mapY = (int)map_data->pos_y;
-	data->deltaDistX = 0;
-	data->deltaDistY = 0;
-	data->perpWallDist = 0;
-	data->stepX = 0;
-	data->stepY = 0;
+	data->camerax = 0;
+	data->raydirx = 0;
+	data->raydiry = 0;
+	data->mapx = (int)map_data->pos_x;
+	data->mapy = (int)map_data->pos_y;
+	data->deltadistx = 0;
+	data->deltadisty = 0;
+	data->perpwalldist = 0;
+	data->stepx = 0;
+	data->stepy = 0;
 	data->hit = 0;
 	data->side = 0;
-	data->lineHeight = 0;
-	data->drawStart = 0;
-	data->drawEnd = 0;
-	data->oldDirX = 0;
-	data->oldPlaneX = 0;
-	data->moveSpeed = 0.09;
-	data->rotSpeed = 0.05;
+	data->lineheight = 0;
+	data->drawstart = 0;
+	data->drawend = 0;
+	data->olddirx = 0;
+	data->oldplanex = 0;
+	data->movespeed = 0.09;
+	data->rotspeed = 0.05;
 	data->map_data = map_data;
 	data->mlx_data = mlx_data;
 	data->h = 0;
 	data->w = 0;
-	data->texX = 0;
+	data->texx = 0;
 	data->color = 0;
-	data->texY = 0;
-	data->texPos = 0;
+	data->texy = 0;
+	data->texpos = 0;
 	data->prev_mouse_x = SCREEN_WIDTH / 2;
     data->mouse_initialized = 0;
 	//  |  Initialisation of the direction the player is facing   |
 	//	V														  V
 	if (map_data->map[(int)map_data->pos_x][(int)map_data->pos_y] == 'W')
 	{
-		data->dirX = 0;
-		data->dirY = -1;
-		data->planeX = -0.55;
-		data->planeY = 0;
+		data->dirx = 0;
+		data->diry = -1;
+		data->planex = -0.55;
+		data->planey = 0;
 	}
 	else if (map_data->map[(int)map_data->pos_x][(int)map_data->pos_y] == 'E')
 	{
-		data->dirX = 0;
-		data->dirY = 1;
-		data->planeX = 0.55;
-		data->planeY = 0;
+		data->dirx = 0;
+		data->diry = 1;
+		data->planex = 0.55;
+		data->planey = 0;
 	}
 	else if (map_data->map[(int)map_data->pos_x][(int)map_data->pos_y] == 'N')
 	{
-		data->dirX = -1;
-		data->dirY = 0;
-		data->planeX = 0;
-		data->planeY = 0.55;
+		data->dirx = -1;
+		data->diry = 0;
+		data->planex = 0;
+		data->planey = 0.55;
 	}
 	else
 	{
-		data->dirX = 1;
-		data->dirY = 0;
-		data->planeX = 0;
-		data->planeY = -0.55;
+		data->dirx = 1;
+		data->diry = 0;
+		data->planex = 0;
+		data->planey = -0.55;
 	}
-
-	
 }
 
 void	init_bonus_data(t_data *data)
 {
 	data->bonus_data->num_doors = data->map_data->num_doors;
-	//data->bonus_data->door = (t_door *)malloc(sizeof(t_door)
-	//	* data->bonus_data->num_doors);
-	//TODO init le reste des bonus.
 	data->bonus_data->num_cinematic1 = 173;
 	data->bonus_data->cinematic_w = 1920;
 	data->bonus_data->cinematic_h = 1080;
-	data->bonus_data->cinematic1 = NULL;
-	//data->bonus_data->cinematic1 = malloc(sizeof(void) * data->bonus_data->num_cinematic1);
-
-
-	
-
-	
+	data->bonus_data->cinematic = NULL;
 }
 
 void init_collectibles(t_map_data *map_data, t_bonus_data *bonus_data)
@@ -226,7 +215,6 @@ void init_collectibles(t_map_data *map_data, t_bonus_data *bonus_data)
     int y;
 	
 	collectible_index = 0;
-    // Allocation du tableau de collectibles
     bonus_data->num_collectibles = map_data->num_collectibles;
     bonus_data->collectibles = (t_collectible *)malloc(sizeof(t_collectible) * bonus_data->num_collectibles);
 
@@ -354,38 +342,11 @@ void	init_data(t_data *data, char **argv)
  	// Initialisation des projectiles
     // Initialisation de l'environnement (ciel et sol)
 	init_bonus_data(data);
-
 	check_error(data, *data->map_data);//check if the .cub file is correct
 	//------------------------------
-	
 	//check_error(data, *data->map_data);//check if the .cub file is correct
-	init_trace_data(data->map_data, data->trace_data, data->mlx_data);//initalize the structure containing
-												//all the render info , all the variables necessary for the calculations
-												// and the textures
-
-
-	
+	init_trace_data(data->map_data, data->trace_data, data->mlx_data);
 	if (init_mlx_data(data->mlx_data, data->map_data->texture_txt) == 1)
-		exit_manager(data);//initalize the structure containing all the mlx related infos
-																//and the textures path
-
+		exit_manager(data);
 	calculate_map_size(data);
-	
-	
-	//!----------------------------TEEEST
-	printf("h = %d\n", data->trace_data->h);//! TEEEST
-	printf("w = %d\n", data->trace_data->w);//! TEEEST
-	//!----------------------------TEEEST
-
-		//!----------------------------
-	int x = 0;
-	while (data->map_data->map[x])
-	{
-		printf("%s", data->map_data->map[x]); //! Print Map  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		x++;
-	}
-	//!----------------------------
-
-
-	//load_cinematic_images(data, "./texture/vortex_cinematic", data->bonus_data->num_cinematic1);
 }

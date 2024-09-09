@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: john <john@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:53:40 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/07 15:54:18 by john             ###   ########.fr       */
+/*   Updated: 2024/09/09 14:34:13 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	play_title(t_data *data)
 	//usleep(500 * 1000); // Convertir ms en microsecondes pour usleep
 	//mlx_do_sync(data->mlx_data->mlx);
 	//data->mlx_data->window = resize_window(data, 1920, 1080);
-	mlx_put_image_to_window(data->mlx_data->mlx, data->mlx_data->window, data->bonus_data->cinematic1[0], 0, 0);
+	mlx_put_image_to_window(data->mlx_data->mlx, data->mlx_data->window, data->bonus_data->cinematic[0], 0, 0);
 	usleep(6000 * 1000); // Convertir ms en microsecondes pour usleep
 	mlx_do_sync(data->mlx_data->mlx);
-	mlx_put_image_to_window(data->mlx_data->mlx, data->mlx_data->window, data->bonus_data->cinematic1[1], 0, 0);
+	mlx_put_image_to_window(data->mlx_data->mlx, data->mlx_data->window, data->bonus_data->cinematic[1], 0, 0);
 	usleep(10000 * 1000); // Convertir ms en microsecondes pour usleep
 	mlx_do_sync(data->mlx_data->mlx);
-	mlx_put_image_to_window(data->mlx_data->mlx, data->mlx_data->window, data->bonus_data->cinematic1[2], 0, 0);
+	mlx_put_image_to_window(data->mlx_data->mlx, data->mlx_data->window, data->bonus_data->cinematic[2], 0, 0);
 	usleep(5000 * 1000); // Convertir ms en microsecondes pour usleep
 	mlx_do_sync(data->mlx_data->mlx);
 	//data->mlx_data->window = resize_window(data, SCREEN_WIDTH, SCREEN_HEIGHT);

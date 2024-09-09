@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: john <john@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 11:06:00 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/07 17:21:41 by john             ###   ########.fr       */
+/*   Updated: 2024/09/09 14:57:36 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int	check_error(t_data *data, t_map_data map_data)
 		printf("Error\nMap must be close\n");
 		exit_error_text(data);
 	}
-	if (check_color(map_data.C) || check_color(map_data.F))
+	if (check_color(map_data.c) || check_color(map_data.f))
 	{
 		free_tab(temp);
 		printf("Error\nWrong color number\n");

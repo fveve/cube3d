@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_manager.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: john <john@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:39:23 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/07 19:44:18 by john             ###   ########.fr       */
+/*   Updated: 2024/09/09 14:33:48 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ void	free_map_data(t_map_data *map_data)
 	x = 0;
 	if (map_data->map)
 		free_tab(map_data->map);
-	if (map_data->C)
-		free(map_data->C);
-	if (map_data->F)
-		free(map_data->F);
+	if (map_data->c)
+		free(map_data->c);
+	if (map_data->f)
+		free(map_data->f);
 	while (x < 4)   //!! (16) !!!??????????????
 	{
 		free(map_data->texture_txt[x]);
@@ -105,7 +105,7 @@ int	exit_error_message(t_data *data, char *message)
 
 int	exit_error_text(t_data *data)
 {
-	if (data->bonus_data->cinematic1)
+	if (data->bonus_data->cinematic)
 		free_cinematic_images(data, data->bonus_data->num_cinematic1);
 
 	free_map_data(data->map_data);
@@ -121,7 +121,7 @@ int	exit_error_text(t_data *data)
 
 int	exit_manager(t_data *data)
 {
-	if (data->bonus_data->cinematic1)
+	if (data->bonus_data->cinematic)
 		free_cinematic_images(data, data->bonus_data->num_cinematic1);
 
 	free_map_data(data->map_data);

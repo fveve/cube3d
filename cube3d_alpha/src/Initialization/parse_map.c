@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: john <john@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 09:52:22 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/07 14:56:57 by john             ###   ########.fr       */
+/*   Updated: 2024/09/09 14:28:23 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,9 @@ int	init_textures(t_map_data *map_data, int fd, int trigger, int x)
 		else if (!ft_strncmp("EA", tab, 2) && trigger < 6)
 			map_data->texture_txt[3] = extract_str(tab);
 		else if (!ft_strncmp("F", tab, 1) && trigger < 6)
-			map_data->F = ft_strdup(tab);
+			map_data->f = ft_strdup(tab);
 		else if (!ft_strncmp("C", tab, 1) && trigger < 6)
-			map_data->C = ft_strdup(tab);
+			map_data->c = ft_strdup(tab);
 		else
 			trigger--;
 		trigger++;
@@ -240,28 +240,8 @@ void	parse_map(t_data *data, char *file)
 		data->map_data->map[x] = get_next_line(fd/*, 0*/);
 	data->map_data->map[x] = NULL;
 	data->map_data->map = remove_space(data->map_data->map);
-	set_color(data->map_data->F, &data->map_data->F_color, 0); // Couleur du sol
-	set_color(data->map_data->C, &data->map_data->C_color, 0); // Couleur du plafond
+	set_color(data->map_data->f, &data->map_data->f_color, 0); // Couleur du sol
+	set_color(data->map_data->c, &data->map_data->c_color, 0); // Couleur du plafond
 	set_pos(data->map_data);
 	set_map_informations(data);
-
-	/*//!----------------------------
-	x = 0;      //!!!!!!!!!!!!!!!!
-	while (data->map_data->map[x])      //!!!!!!!!!!!!!!!!
-	{      //!!!!!!!!!!!!!!!!
-		printf("%s", data->map_data->map[x]); //! Print Map
-		x++;      //!!!!!!!!!!!!!!!!
-	}      //!!!!!!!!!!!!!!!!
-	//!----------------------------
-
-printf("Texture NO: %s\n", data->map_data->texture_txt[0]);      //!!!!!!!!!!!!!!!!
-printf("Texture SO: %s\n", data->map_data->texture_txt[1]);      //!!!!!!!!!!!!!!!!
-printf("Texture WE: %s\n", data->map_data->texture_txt[2]);      //!!!!!!!!!!!!!!!!
-printf("Texture EA: %s\n", data->map_data->texture_txt[3]);      //!!!!!!!!!!!!!!!!
-
-printf("Floor Color: %d\n", data->map_data->F_color);      //!!!!!!!!!!!!!!!!
-printf("Ceiling Color: %d\n", data->map_data->C_color);      //!!!!!!!!!!!!!!!!
-
-
-	//!----------------------------*/
 }
