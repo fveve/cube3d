@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:53:40 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/12 11:15:08 by arafa            ###   ########.fr       */
+/*   Updated: 2024/09/12 14:44:03 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if (argc != 2)
+	if (argc != 2 || access(argv[1], F_OK | R_OK) == -1)
 	{
-		printf("Error\nWrong number of argument\n");
+		printf("Error\nFile problem\n");
 		exit (0);
 	}
 	init_data(&data, argv);
