@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:53:40 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/12 14:44:03 by arafa            ###   ########.fr       */
+/*   Updated: 2024/09/12 16:45:10 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	main(int argc, char **argv)
 	}
 	init_data(&data, argv);
 	playsound("cub3d_intro", 0, 1, 0);
-	load_cinematic_images(&data, "./texture/vortex_cinematic",
-		(&data)->bonus_data->num_cinematic1);
-	play_title(&data);
+	//load_cinematic_images(&data, "./texture/vortex_cinematic",
+	//	(&data)->bonus_data->num_cinematic1);
+	//play_title(&data);
 	(&data)->mlx_data->window = resize_window(&data,
 		SCREEN_WIDTH, SCREEN_HEIGHT);
 	playsound("cub3d_tablet_sound_intro", 0, 0, 0);

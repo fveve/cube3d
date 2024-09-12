@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 17:33:34 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/12 11:22:49 by arafa            ###   ########.fr       */
+/*   Updated: 2024/09/12 16:44:56 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	going_down(t_data *data)
 			* data->trace_data->movespeed;
 	collect_item(data);
 	ft_check_if_ennemy(data);
-	enter_the_vortex(data);
+	//enter_the_vortex(data);
 }
 
 void	going_up(t_data *data)
@@ -66,7 +66,7 @@ void	going_up(t_data *data)
 			*data->trace_data->movespeed;
 	collect_item(data);
 	ft_check_if_ennemy(data);
-	enter_the_vortex(data);
+	//enter_the_vortex(data);
 }
 
 void	going_left(t_data *data)
@@ -94,7 +94,7 @@ void	going_left(t_data *data)
 			* data->trace_data->movespeed;
 	collect_item(data);
 	ft_check_if_ennemy(data);
-	enter_the_vortex(data);
+	//enter_the_vortex(data);
 }
 
 void	going_right(t_data *data)
@@ -122,7 +122,7 @@ void	going_right(t_data *data)
 			*data->trace_data->movespeed;
 	collect_item(data);
 	ft_check_if_ennemy(data);
-	enter_the_vortex(data);
+	//enter_the_vortex(data);
 }
 
 int	input(int key, t_data *data)

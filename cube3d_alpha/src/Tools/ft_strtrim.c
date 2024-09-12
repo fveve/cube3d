@@ -3,16 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:07:59 by joncurci          #+#    #+#             */
-/*   Updated: 2023/10/14 18:22:34 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:16:46 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cube3d.h"
 
 char	*ft_strtrim(char const *s1, char const *set);
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	char	*p;
+
+	p = (char *)b;
+	while (len > 0)
+	{
+		p[len - 1] = c;
+		len--;
+	}
+	return (b);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t	b;
+	void	*p;
+
+	if (count == 0 || size == 0)
+	{
+		count = 1;
+		size = 1;
+	}
+	b = count * size;
+	p = malloc(b);
+	if (p == NULL)
+		return (NULL);
+	else
+		ft_memset(p, 0,b);
+	return (p);
+}
 
 static size_t	setcountbeg(char const *s1, char const *set)
 {

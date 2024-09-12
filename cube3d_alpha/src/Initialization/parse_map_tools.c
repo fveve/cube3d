@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:19:22 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/12 11:32:28 by arafa            ###   ########.fr       */
+/*   Updated: 2024/09/12 16:30:04 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,28 +79,57 @@ int	file_len(char *file)
 
 void	init_textures2(t_map_data *map_data, char *tab, int *trigger)
 {
-	if (!ft_strncmp("WE", tab, 2) && *trigger < 6)
+	if (!ft_strncmp("WE", tab, 2) && *trigger== 2)
 		map_data->texture_txt[2] = extract_str(tab);
-	else if (!ft_strncmp("EA", tab, 2) && *trigger < 6)
+	else if (!ft_strncmp("EA", tab, 2) && *trigger == 3)
 		map_data->texture_txt[3] = extract_str(tab);
-	else if (!ft_strncmp("F", tab, 1) && *trigger < 6)
+	else if (!ft_strncmp("F", tab, 1) && *trigger == 4)
 		map_data->f = ft_strdup(tab);
-	else if (!ft_strncmp("C", tab, 1) && *trigger < 6)
+	else if (!ft_strncmp("C", tab, 1) && *trigger == 5)
 		map_data->c = ft_strdup(tab);
 	else
 		(*trigger)--;
+}
+
+int check_trigger(t_data *data, char *tab, int trigger)
+{
+	if (!ft_strncmp("NO", tab, 2) && trigger > 0)
+		exit_error_message(data, "Error\nTextureProblem\n");
+	if (!ft_strncmp("SO", tab, 2) && trigger > 1)
+		exit_error_message(data, "Error\nTextureProblem\n");
+	if (!ft_strncmp("WE", tab, 2) && trigger > 2)
+			exit_error_message(data, "Error\nTextureProblem\n");
+	if (!ft_strncmp("EA", tab, 2) && trigger > 3)
+		exit_error_message(data, "Error\nTextureProblem\n");
+	if (!ft_strncmp("F", tab, 1) && trigger > 4)
+		exit_error_message(data, "Error\nTextureProblem\n");
+	if (!ft_strncmp("C", tab, 1) && trigger > 5)
+		exit_error_message(data, "Error\nTextureProblem\n");
+	if (ft_strncmp("C", tab, 1) && ft_strncmp("NO", tab, 2) && ft_strncmp("SO", tab, 2) && ft_strncmp("WE", tab, 2) && ft_strncmp("EA", tab, 2) && ft_strncmp("F", tab, 1) && ft_strncmp("\n", tab, 1))
+		exit_error_message(data, "Error\nTextureProblem\n");
+	return (0);
+}
+
+char *set_tab(char *tab)
+{
+	char	*temp;
+
+	temp = ft_strtrim(tab, " 	");
+	free(tab);
+	return (temp);
 }
 
 int	init_textures(t_data *data, int fd, int trigger, int x)
 {
 	char	*tab;
 
-	tab = get_next_line(fd);
+	tab = set_tab(get_next_line(fd));
 	while (tab && trigger < 6)
 	{
-		if (!ft_strncmp("NO", tab, 2) && trigger < 6)
+		check_trigger(data, tab, trigger);
+		if (!ft_strncmp("NO", tab, 2) && trigger == 0)
 			data->map_data->texture_txt[0] = extract_str(tab);
-		else if (!ft_strncmp("SO", tab, 2) && trigger < 6)
+		else if (!ft_strncmp("SO", tab, 2) && trigger == 1)
 			data->map_data->texture_txt[1] = extract_str(tab);
 		else
 			init_textures2(data->map_data, tab, &trigger);
@@ -109,7 +138,7 @@ int	init_textures(t_data *data, int fd, int trigger, int x)
 		{
 			x++;
 			free(tab);
-			tab = get_next_line(fd);
+			tab =set_tab(get_next_line(fd));
 		}
 	}
 	if (trigger < 6)

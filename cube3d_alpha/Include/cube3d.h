@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:41:24 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/12 11:40:00 by arafa            ###   ########.fr       */
+/*   Updated: 2024/09/12 16:17:34 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,6 +351,7 @@ char		*get_next_line(int fd);
 long		ft_atoi(char *nptr);
 char		*extract_str(char *str);
 char		*ft_substr(char const *s, int start, int len);
+char		*ft_strtrim(char const *s1, char const *set);
 int			ft_strncmp(const char *s1, char *s2, size_t n);
 int			ft_strlen2(char **tab);
 

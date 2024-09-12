@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ennemies.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:07:21 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/11 13:07:02 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:40:44 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	enter_the_vortex(t_data *data)
 
 	num_images = data->bonus_data->num_cinematic1;
 	delay_ms = 40;
-	if ((int)(data->bonus_data->door.x) == (int)data->map_data->pos_y &&
+	if (data->bonus_data->num_doors > 0 && data->bonus_data->door.x == (int)data->map_data->pos_y &&
 			(int)(data->bonus_data->door.y) == (int)data->map_data->pos_x)
 	{
 		cinematic(data, num_images, delay_ms);

@@ -16,7 +16,7 @@ MAIN = main render render2 render3 render4 render5 input input2
 
 INITIALIZATION = parse_map init_data init_mlx_data init_map_data init_trace_data init_bonus_data init_bonus_data2 parse_map_tools parse_map_tools2
 
-TOOLS = exit_manager tools debug gnl_tools render_tools
+TOOLS = exit_manager tools debug gnl_tools render_tools ft_strtrim
 
 BONUSES = minimap1 minimap2 minimap3 minimap4 doors collectibles ennemies sound cinematic1 cinematic2 cinematic3 cinematic4
 

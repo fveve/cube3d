@@ -6,7 +6,7 @@
 /*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 09:52:22 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/11 15:22:03 by arafa            ###   ########.fr       */
+/*   Updated: 2024/09/12 16:36:27 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ void	parse_map(t_data *data, t_map_data *map_data, char *file)
 		map_data->map[x] = get_next_line(fd);
 	map_data->map[x] = NULL;
 	map_data->map = remove_space(map_data->map);
+	if (ft_strlen2(map_data->map) < 3)
+		exit_error_message(data, "Error\nMap Error\n");
 	set_color(map_data->f, &map_data->f_color, 0);
 	set_color(map_data->c, &map_data->c_color, 0);
 	set_pos(map_data);
