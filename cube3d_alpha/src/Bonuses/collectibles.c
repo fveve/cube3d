@@ -6,7 +6,7 @@
 /*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:23:04 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/09 14:26:58 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:51:32 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,26 @@ int	find_collectible_at(t_bonus_data *bonus_data, int map_y, int map_x)
 	return (-1);
 }
 
+void	choose_tablet_sound(t_data *data)
+{
+	if (data->bonus_data->collected_count == 1)
+		playsound("cub3d_tablet_sound1", 0, 0, 0);
+	else if (data->bonus_data->collected_count == 2)
+		playsound("cub3d_tablet_sound2", 0, 0, 0);
+	else if (data->bonus_data->collected_count == 3)
+		playsound("cub3d_tablet_sound3", 0, 0, 0);
+	else if (data->bonus_data->collected_count == 4)
+		playsound("cub3d_tablet_sound4", 0, 0, 0);
+	else if (data->bonus_data->collected_count == 5)
+		playsound("cub3d_tablet_sound5", 0, 0, 0);
+	else if (data->bonus_data->collected_count
+		== data->bonus_data->num_collectibles - 1)
+		playsound("cub3d_tablet_sound6", 0, 0, 0);
+	else if (data->bonus_data->collected_count
+		== data->bonus_data->num_collectibles)
+		playsound("cub3d_tablet_sound7", 0, 0, 0);
+}
+
 void	collect_item(t_data *data)
 {
 	int	collectible_index;
@@ -39,24 +59,8 @@ void	collect_item(t_data *data)
 		data->bonus_data->collectibles[collectible_index].is_collected = 1;
 		data->bonus_data->collected_count++;
 		playsound("cub3d_collectible_sound", 0, 0, 0);
-		if (data->bonus_data->collected_count == 1)
-			playsound("cub3d_tablet_sound1", 0, 0, 0);
-		else if (data->bonus_data->collected_count == 2)
-			playsound("cub3d_tablet_sound2", 0, 0, 0);
-		else if (data->bonus_data->collected_count == 3)
-			playsound("cub3d_tablet_sound3", 0, 0, 0);
-		else if (data->bonus_data->collected_count == 4)
-			playsound("cub3d_tablet_sound4", 0, 0, 0);
-		else if (data->bonus_data->collected_count == 5)
-			playsound("cub3d_tablet_sound5", 0, 0, 0);
-		else if (data->bonus_data->collected_count
-			== data->bonus_data->num_collectibles - 1)
-			playsound("cub3d_tablet_sound6", 0, 0, 0);
-		else if (data->bonus_data->collected_count
-			== data->bonus_data->num_collectibles)
-			playsound("cub3d_tablet_sound7", 0, 0, 0);
+		choose_tablet_sound(data);
 	}
-	printf("OBJETS COLLECTES == %d \n", data->bonus_data->collected_count);
 }
 
 int	is_near_green(int color, int tolerance)

@@ -6,7 +6,7 @@
 /*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:41:24 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/09 15:55:21 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:43:22 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,12 @@ typedef struct s_map_data
 {
 	double	pos_x;
 	double	pos_y;
-	char	*texture_txt[37];//all the texture paths stored in order
+	char	*texture_txt[37];
 	char	*f;
 	char	*c;
 	char	**map;
-	int		f_color;//final floor color
-	int		c_color;//final ceailing color
+	int		f_color;
+	int		c_color;
 	int		num_collectibles;
 	int		num_ennemies;
 	int		num_doors;
@@ -154,54 +154,53 @@ typedef struct s_mlx_data
 {
 	void	*mlx;
 	void	*window;
-	t_img	*img;//current frame which is  redrawn each time
+	t_img	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	t_img	*texture[37];// all the texture stored in an array
-	int		texture_count;// Total number of textures in the array
+	t_img	*texture[37];
+	int		texture_count;
 }	t_mlx_data;
 
 typedef struct s_trace_data
 {
-	double			dirx;//direction of the player, meaning where is the player looking
-	double			diry;//direction of the player
-	double			planex;//camera plane of the player, meaning how much do the player see
-	double			planey;//camera plane of the player
-	double			sidedistx;//the distance the ray has to travel form our current position to the fist x side (vertical side)
-	double			sidedisty;//the distance the ray has to travel form our current position to the fist y side (horizontal side)
-	double			camerax;//x coordinate in camera space, meaning the x position in the camera plane
-	double			raydirx;//current x coordinates + the position inside the square we're in
-	double			raydiry;//current y coordinates + the position inside the square we're in
+	double			dirx;
+	double			diry;
+	double			planex;
+	double			planey;
+	double			sidedistx;
+	double			sidedisty;
+	double			camerax;
+	double			raydirx;
+	double			raydiry;
 	double			movespeed;
 	double			rotspeed;
-	double			olddirx;//used to rotate the y direction vector  
-	double			oldplanex;//used to rotate the y plane vector  
-	double			deltadistx;//distance the ray has to travel to go form our x side position to the next x side (meaning the side of the square in front of our position), calculated using Pythagoras formula A^2 + B^2 = C^2
-	double			deltadisty;//distance the ray has to travel to go form our y side position to the next y side (meaning the side of the square in front of our position)
-	double			perpwalldist;//length of the ray (which extend until it hit a wall)
-	double			wallx;//the exact value of where the wall was hit
-	double			step;//how much to increase the textiure coordinate per pixels
-	double			texpos;//starting texture coordinates
-	int				color;//color of the pixel
-	int				mapx;//current x coordinates
-	int				mapy;//current y coordinates
-	int				stepx;//what x direction to step in : in front of (+1) or behind (-1)
-	int				stepy;//what y direction to step in : in front of (+1) or behind (-1)
-	int				hit;//is there a wall hit ?
-	int				side;//was it a west side (like Tupac lmao) or East side wall hit 
-	int				lineheight;//height of the line to draw on the screen
-	int				drawstart;//where the wall drawing start
-	int				drawend;//where the wall drawing end
-	int				h;//useless variable, might replace or delete later
-	int				w;//useless variable, might replace or delete later
-	int				texy;//x coordinate of the texture
-	int				texx;//y coordinate of the texture
+	double			olddirx;
+	double			oldplanex;
+	double			deltadistx;
+	double			deltadisty;
+	double			perpwalldist;
+	double			wallx;
+	double			step;
+	double			texpos;
+	int				color;
+	int				mapx;
+	int				mapy;
+	int				stepx;
+	int				stepy;
+	int				hit;
+	int				side;
+	int				lineheight;
+	int				drawstart;
+	int				drawend;
+	int				h;
+	int				w;
+	int				texy;
+	int				texx;
 	int				prev_mouse_x;
 	int				mouse_initialized;
 	unsigned int	buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
-	//unsigned int	**buffer;
 	t_map_data		*map_data;
 	t_mlx_data		*mlx_data;
 }	t_trace_data;
@@ -222,10 +221,10 @@ typedef struct s_enemy
 {
 	double			pos_x;
 	double			pos_y;
-	int				hp;// Health points
-	int				is_alive;// Is the enemy still alive?
-	int				is_moving;// Is the enemy currently moving?
-	double			speed;// Speed of the enemy
+	int				hp;
+	int				is_alive;
+	int				is_moving;
+	double			speed;
 }	t_enemy;
 
 typedef struct s_projectile
@@ -234,34 +233,70 @@ typedef struct s_projectile
 	double			pos_y;
 	double			dir_x;
 	double			dir_y;
-	int				is_active;// Is the projectile currently active?
-	double			speed;// Speed of the projectile
+	int				is_active;
+	double			speed;
 }	t_projectile;
 
 typedef struct s_collectible
 {
 	double			c_x;
 	double			c_y;
-	int				is_collected;// 0 if not collected, 1 if collected
+	int				is_collected;
 }	t_collectible;
 
 typedef struct s_minimap
 {
-	int	r1;
-	int	g1;
-	int	b1;
-	int	r2;
-	int	g2;
-	int	b2;
-	int	r;
-	int	g;
-	int	b;
+	int		i;
+
+	int		map_x;
+	int		map_y;
+	int		tile_size;
+	float	screen_x;
+	float	screen_y;
+	float	alpha;
+
+	float	playerx;
+	float	playery;
+	double	dirx;
+	double	diry;
+
+	int		r1;
+	int		g1;
+	int		b1;
+	int		r2;
+	int		g2;
+	int		b2;
+	int		r;
+	int		g;
+	int		b;
+
+	int		start_x;
+	int		start_y;
+	double	angle;
+	double	new_dirx_right;
+	double	new_diry_right;
+	double	new_dirx_left;
+	double	new_diry_left;
+	double	hypot_length;
+	int		end_x_right;
+	int		end_y_right;
+	int		end_x_left;
+	int		end_y_left;
+
+	int		x_start;
+	int		x_end;
+	int		min_x;
+	int		max_x;
+	int		min_y;
+	int		max_y;
+	int		tmp_x;
+	int		tmp_y;
 }	t_minimap;
 
 typedef struct s_bonus_data
 {
 	//---------/ Minimap Part \-----------//
-	t_minimap		*minimap;
+	t_minimap		minimap;
 	//---------/ Door Part \-----------//
 	int				num_doors;
 	t_door			door;// Array of doors
@@ -343,7 +378,7 @@ void	free_tab_text_error(t_img **tab, int i);
 int		exit_error_text(t_data *data);
 
 //				Bonuses
-void	draw_minimap(t_data *data);
+void	draw_minimap(t_data *data, t_minimap *minimap);
 void	calculate_map_size(t_data *data);
 void	draw_minimap_player(t_data *data);
 int		find_collectible_at(t_bonus_data *bonus_data, int map_x, int map_y);
@@ -365,6 +400,87 @@ void	pkill_paplay(void);
 void	*resize_window(t_data *data, int new_width, int new_height);
 long	get_elapsed_time_ms(struct timeval start_time);
 void	free_cinematic_images(t_data *data, int num_images);
+
+//				Cinematic
+size_t		ft_strlcpy(char *dest, const char *src, size_t size);
+//static int	numberlen(int n);
+//static char	*intminimum(void);
+//static char	*malloctab(int n);
+//static char	*treatnumber(int n, char *tab, int len);
+char		*ft_itoa(int n);
+char		*ft_strjoin_free(char *s1, char *s2);
+void		free_cinematic_images(t_data *data, int num_images);
+void		put_good_image(t_data *data, int text);
+void		play_loading_bar(t_data *data, int i);
+void		load_image1(t_data *data);
+void		load_image2(t_data *data);
+char		*finish_the_path(t_data *data, char *folder_path,
+				char *file_name, char *file_path);
+char		*create_the_path(t_data *data, int i, char *file_name);
+int			load_part1(t_data *data, char **file_name, char **file_path,
+				int num_images);
+int			load_part2(t_data *data, int i);
+void		load_cinematic_images(t_data *data, char *folder_path, int num_images);
+long		get_elapsed_time_ms(struct timeval start_time);
+void		play_cinematic(t_data *data, int num_images, int delay_ms);
+void		cinematic(t_data *data, int num_images, int delay_ms);
+
+//				Minimap
+void		calculate_map_size(t_data *data);
+int			blend_colors(t_minimap *minimap, int color1, int color2, float alpha);
+void		draw_square(t_data *data, float x, float y, int color);
+void		draw_horizontal_line_within_bounds(t_data *data,
+				t_minimap *minimap, int y, int color);
+void		fill_triangle_part3(t_minimap *minimap, int y);
+void		fill_triangle_part4(t_minimap *minimap, int y);
+void		set_triangle_points1(t_minimap *minimap);
+void		set_triangle_points2(t_minimap *minimap);
+void		set_triangle_points3(t_minimap *minimap);
+void		fill_triangle_within_bounds_transparent(t_data *data,
+				t_minimap *minimap, int color);
+double		safe_cos(double angle);
+double		safe_sin(double angle);
+void		draw_vision_lines(t_data *data, t_minimap *minimap);
+void		init_minimap_struct_part2(t_minimap *minimap);
+void		init_minimap_struct(t_data *data, t_minimap *minimap);
+void		draw_enn_and_coll(t_data *data, t_minimap *minimap);
+void		draw_minimap(t_data *data, t_minimap *minimap);
+
+//				Input
+int			mouse_move2(t_data *data, int diffx);
+int			mouse_move(int x, int y, t_data *data);
+void		camera_right(t_data *data);
+void		camera_left(t_data *data);
+
+//				Minimap
+void		init_ray2b(t_data *data);
+void		init_ray2(t_data *data, int x);
+void		if_ennemy_loop2(t_data *data, int *tex_index2, int *collectible_index);
+void		if_collec_loop2(t_data *data, int *tex_index2, int *collectible_index);
+void		if_door_loop2(t_data *data);
+void		set_the_hit_loop2(t_data *data, int *tex_index2, int collectible_index,
+				char current_tile);
+void		dda_loop2(t_data *data, int *tex_index2);
+void		calculate_distance2_part1(t_data *data);
+void		calculate_distance2(t_data *data);
+void		render_column2(t_data *data, int x, int tex_index2);
+void		clear_buffer(t_data *data);
+void		init_ray_part1(t_data *data);
+void		init_ray(t_data *data, int x);
+void		if_ennemy_loop1(t_data *data, int *tex_index2, int *collectible_index);
+void		if_collec_loop1(t_data *data, int *tex_index2, int *collectible_index);
+void		set_the_hit_loop1(t_data *data, int *tex_index2, int collectible_index,
+				char current_tile);
+void		dda_loop(t_data *data, int *tex_index2);
+void		calculate_distance1_part1(t_data *data);
+void		calculate_distance(t_data *data);
+void		render_column(t_data *data, int x, int tex_index);
+void		chooze_text_2(t_data *data, int *tex_index, int collectible_index,
+				int ennemy_index);
+void		chooze_text_1(t_data *data, int *tex_index);
+void		chooze_text_loop1_and_2(t_data *data, int *tex_index,
+				int *collectible_index, int *ennemy_index);
+int			ft_render(t_data *data);
 
 //------------\_________/----------//
 #endif

@@ -6,7 +6,7 @@
 /*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 17:53:46 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/09 14:32:48 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:21:25 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,8 +299,6 @@ void init_doors(t_map_data *map_data, t_bonus_data *bonus_data)
         y++;
     }
 }
-
-
 
 void init_projectiles(t_bonus_data *bonus_data)
 {

@@ -6,7 +6,7 @@
 /*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:01:12 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/09 15:06:34 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:34:06 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,72 @@ void	open_close_thedoor(t_data *data)
 	}
 }
 
+void	kawoush(t_data *data, long elapsed_time, long *curr_t_ms)
+{
+	if (elapsed_time >= 30)
+	{
+		data->bonus_data->door.texture_id++;
+		if (data->bonus_data->door.texture_id == 30)
+			data->bonus_data->door.flag_incr_decr = 1;
+		data->bonus_data->door.last_time_texture = *curr_t_ms;
+	}
+}
+
+void	events_horizon(t_data *data, long elapsed_time, long *curr_t_ms)
+{
+	if (elapsed_time >= 30)
+	{
+		if (data->bonus_data->door.texture_id == 29)
+		{
+			data->bonus_data->door.texture_id++;
+			data->bonus_data->door.flag_incr_decr = 1;
+		}
+		else if (data->bonus_data->door.texture_id > 29
+			&& data->bonus_data->door.texture_id < 36
+			&& data->bonus_data->door.flag_incr_decr == 1)
+			data->bonus_data->door.texture_id++;
+		else if (data->bonus_data->door.texture_id > 29
+			&& data->bonus_data->door.texture_id < 36
+			&& data->bonus_data->door.flag_incr_decr == -1)
+			data->bonus_data->door.texture_id--;
+		else if (data->bonus_data->door.texture_id == 36)
+		{
+			data->bonus_data->door.texture_id--;
+			data->bonus_data->door.flag_incr_decr = -1;
+		}
+		data->bonus_data->door.last_time_texture = *curr_t_ms;
+	}
+}
+
+void	choose_door_texture(t_data *data, long elapsed_time, long *curr_t_ms)
+{
+	if (data->bonus_data->door.texture_id == 6)
+		data->bonus_data->door.texture_id++;
+	else if (data->bonus_data->door.texture_id > 6
+		&& data->bonus_data->door.texture_id < 13)
+	{
+		if (elapsed_time >= 1200)
+		{
+			data->bonus_data->door.texture_id++;
+			data->bonus_data->door.last_time_texture = *curr_t_ms;
+		}
+	}
+	else if (data->bonus_data->door.texture_id == 13)
+	{
+		if (elapsed_time >= 2000)
+		{
+			data->bonus_data->door.texture_id++;
+			data->bonus_data->door.last_time_texture = *curr_t_ms;
+		}
+	}
+	else if (data->bonus_data->door.texture_id > 12
+		&& data->bonus_data->door.texture_id < 30)
+		kawoush(data, elapsed_time, curr_t_ms);
+	else if (data->bonus_data->door.texture_id > 29
+		&& data->bonus_data->door.texture_id <= 36)
+		events_horizon(data, elapsed_time, curr_t_ms);
+}
+
 int	get_door_texture_animation(t_data *data)
 {
 	struct timeval	current_time;
@@ -46,79 +112,6 @@ int	get_door_texture_animation(t_data *data)
 	}
 	elapsed_time = current_time_ms - last_time;
 	if (data->bonus_data->door.is_open == 1)
-	{
-		if (data->bonus_data->door.texture_id == 6)
-			data->bonus_data->door.texture_id++;
-		else if (data->bonus_data->door.texture_id > 6
-			&& data->bonus_data->door.texture_id < 13)
-		{
-			if (elapsed_time >= 1200)
-			{
-				data->bonus_data->door.texture_id++;
-				data->bonus_data->door.last_time_texture = current_time_ms;
-			}
-		}
-		else if (data->bonus_data->door.texture_id == 13)
-		{
-			if (elapsed_time >= 2000)
-			{
-				data->bonus_data->door.texture_id++;
-				data->bonus_data->door.last_time_texture = current_time_ms;
-			}
-		}
-		else if (data->bonus_data->door.texture_id > 12
-			&& data->bonus_data->door.texture_id < 30)
-		{
-			if (elapsed_time >= 30)
-			{
-				data->bonus_data->door.texture_id++;
-				if (data->bonus_data->door.texture_id == 30)
-					data->bonus_data->door.flag_incr_decr = 1;
-				data->bonus_data->door.last_time_texture = current_time_ms;
-			}
-		}
-		else if (data->bonus_data->door.texture_id > 29
-			&& data->bonus_data->door.texture_id <= 36)
-		{
-			if (elapsed_time >= 30)
-			{
-				if (data->bonus_data->door.texture_id == 29)
-				{
-					data->bonus_data->door.texture_id++;
-					data->bonus_data->door.flag_incr_decr = 1;
-				}
-				else if (data->bonus_data->door.texture_id > 29
-					&& data->bonus_data->door.texture_id < 36
-					&& data->bonus_data->door.flag_incr_decr == 1)
-					data->bonus_data->door.texture_id++;
-				else if (data->bonus_data->door.texture_id > 29
-					&& data->bonus_data->door.texture_id < 36
-					&& data->bonus_data->door.flag_incr_decr == -1)
-					data->bonus_data->door.texture_id--;
-				else if (data->bonus_data->door.texture_id == 36)
-				{
-					data->bonus_data->door.texture_id--;
-					data->bonus_data->door.flag_incr_decr = -1;
-				}
-				data->bonus_data->door.last_time_texture = current_time_ms;
-			}
-		}
-	}
+		choose_door_texture(data, elapsed_time, &current_time_ms);
 	return (data->bonus_data->door.texture_id);
-}
-
-void	enter_the_vortex(t_data *data)
-{
-	int	num_images;
-	int	delay_ms;
-
-	num_images = data->bonus_data->num_cinematic1;
-	delay_ms = 40;
-	if ((int)(data->bonus_data->door.x) == (int)data->map_data->pos_y &&
-			(int)(data->bonus_data->door.y) == (int)data->map_data->pos_x)
-	{
-		cinematic(data, num_images, delay_ms);
-		exit_manager(data);
-		return ;
-	}
 }

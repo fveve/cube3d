@@ -10,15 +10,15 @@ LIB = -Lmlx_linux -lmlx_Linux -lXext -lX11 -lm  -IO3 -lz -L/usr/lib
 
 ERROR = check_error
 
-GNL = get_next_line
+GNL = get_next_line gnl_utils
 
-MAIN = main render input
+MAIN = main render render2 render3 render4 render5 input input2
 
 INITIALIZATION = parse_map init_data
 
 TOOLS = exit_manager tools debug gnl_tools render_tools
 
-BONUSES = minimap1 doors collectibles ennemies sound cinematic
+BONUSES = minimap1 minimap2 minimap3 minimap4 doors collectibles ennemies sound cinematic1 cinematic2 cinematic3 cinematic4
 
 SRC = $(addsuffix .c, $(addprefix src/GNL/, $(GNL)))\
 		$(addsuffix .c, $(addprefix src/Initialization/, $(INITIALIZATION)))\

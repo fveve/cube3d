@@ -6,104 +6,11 @@
 /*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:20:51 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/03 19:09:51 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:07:06 by joncurci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
-/*char	*get_next_line(int fd, int to_copy)
-{
-	static char		buffer[42];
-	char			*line;
-	char			*new_line;
-	int				countread;
-
-	line = ft_strdup(buffer);
-	while (!(new_line = ft_strchr(line, '\n')) && (countread = read(fd, buffer, 42)))
-	{
-		buffer[countread] = '\0';
-		line = ft_strjoin(line, buffer);
-	}
-	if (!ft_strlen(line))
-		return (free(line), NULL);
-	if (new_line)
-	{
-		to_copy = new_line - line + 1;
-		ft_strcpy(buffer, new_line + 1);
-	}
-	else
-	{
-		to_copy = ft_strlen(line);
-		buffer[0] = '\0';
-	}
-	line[to_copy] = '\0';
-	return (line);
-}*/
-
-char	*ft_strdup(const char *str)
-{
-	size_t	i;
-	size_t	srclen;
-	char	*dup;
-
-	i = 0;
-	srclen = ft_strlen((char *)str);
-	dup = malloc(sizeof(char) * (srclen + 1));
-	if (!dup)
-		return (NULL);
-	while (str[i])
-	{
-		dup[i] = str[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (char)c)
-			return ((char *)&s[i]);
-		i++;
-	}
-	if ((char)c == '\0')
-		return ((char *)&s[i]);
-	return (NULL);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	i;
-	size_t	j;
-	size_t	totlen;
-	char	*join;
-
-	i = 0;
-	j = 0;
-	totlen = ft_strlen((char *)s1) + ft_strlen((char *)s2);
-	join = (char *)malloc(sizeof(char) * (totlen + 1));
-	if (!join)
-		return (NULL);
-	while (s1[i])
-	{
-		join[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		join[i] = s2[j];
-		j++;
-		i++;
-	}
-	join[i] = '\0';
-	return (join);
-}
 
 size_t	substrlen(char const *s, unsigned int start, size_t len)
 {
@@ -117,14 +24,14 @@ size_t	substrlen(char const *s, unsigned int start, size_t len)
 	return (i - start);
 }
 
-char	*ft_substr(char const *s, /*unsigned */int start, /*size_t*/int len)
+char	*ft_substr(char const *s, int start, int len)
 {
 	size_t	i;
 	size_t	sublen;
 	char	*sub;
 
 	i = 0;
-	if (start >= /*(unsigned int)*/ft_strlen((char *)s))
+	if (start >= ft_strlen((char *)s))
 	{
 		return (ft_strdup(""));
 	}
@@ -140,8 +47,6 @@ char	*ft_substr(char const *s, /*unsigned */int start, /*size_t*/int len)
 	sub[i] = '\0';
 	return (sub);
 }
-
-
 
 char	*add_line(int fd, char *buff, char *savedline)
 {
