@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 13:48:42 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/03 17:39:47 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:20:38 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,6 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-/*void	draw_buffer(t_trace_data *data)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < SCREEN_WIDTH)
-	{
-		y = 0;
-		while (y < SCREEN_HEIGHT)
-		{
-			my_mlx_pixel_put(data->mlx_data->img, x, y, data->buffer[y][x]);
-			y++;
-		}
-		x++;
-	}
-}*/
-
 void	draw_buffer(t_trace_data *data)
 {
 	int	x;
@@ -68,7 +50,6 @@ void	draw_buffer(t_trace_data *data)
 		y = 0;
 		while (y < SCREEN_HEIGHT)
 		{
-			// Placement du pixel dans l'image selon les dimensions
 			my_mlx_pixel_put(data->mlx_data->img, x, y, data->buffer[y][x]);
 			y++;
 		}

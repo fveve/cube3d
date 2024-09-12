@@ -2,19 +2,19 @@ NAME = cub3d
 
 CC = cc
 
-CFLAGS += -g -Wall -Wextra -Werror -I/usr/include -Imlx_linux -IInclude  -Imlx
+CFLAGS += -g -Wall -Wextra -I/usr/include -Imlx_linux -IInclude  -Imlx
 
 HEADER = cube3d.h
 
 LIB = -Lmlx_linux -lmlx_Linux -lXext -lX11 -lm  -IO3 -lz -L/usr/lib
 
-ERROR = check_error
+ERROR = check_error check_error_tools check_error_tools2
 
 GNL = get_next_line gnl_utils
 
 MAIN = main render render2 render3 render4 render5 input input2
 
-INITIALIZATION = parse_map init_data
+INITIALIZATION = parse_map init_data init_mlx_data init_map_data init_trace_data init_bonus_data init_bonus_data2 parse_map_tools parse_map_tools2
 
 TOOLS = exit_manager tools debug gnl_tools render_tools
 

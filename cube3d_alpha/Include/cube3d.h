@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:41:24 by joncurci          #+#    #+#             */
-/*   Updated: 2024/09/11 20:43:22 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:40:00 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,75 +331,86 @@ typedef struct s_data
 //------------/Functions\----------//
 
 //				Main
-void	init_data(t_data *data, char **argv);
-int		ft_render(t_data *data);
-int		input(int key, t_data *data);
+void		init_data(t_data *data, char **argv);
+int			ft_render(t_data *data);
+int			input(int key, t_data *data);
 
-//				parsing
-int		is_printable(char *s);
-void	parse_map(t_data *map_data, char *file);
+//				Parsing
+int			is_printable(char *s);
+void		parse_map(t_data *data, t_map_data *map_data, char *file);
 
-//			get_next_line
-char	*get_next_line(int fd);
+//			Initialization
+void		init_map_data(t_data *_data, t_map_data *data, char **argv);
+void		init_mlx_data(t_data *_data, t_mlx_data *data, char *texture[37]);
+t_img		*init_img(void *mlx, char *texture, int trigger);
 
-//				tools
-long	ft_atoi(char *nptr);
-char	*extract_str(char *str);
-char	*ft_substr(char const *s, int start, int len);
-int		ft_strncmp(const char *s1, char *s2, size_t n);
-int		ft_strlen2(char **tab);
+//			Get_next_line
+char		*get_next_line(int fd);
 
-//			render	 tools
-double	ft_abs(double nb);
-int		get_pixel(t_img *data, int x, int y);
-void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
-void	draw_buffer(t_trace_data *data);
+//				Tools
+long		ft_atoi(char *nptr);
+char		*extract_str(char *str);
+char		*ft_substr(char const *s, int start, int len);
+int			ft_strncmp(const char *s1, char *s2, size_t n);
+int			ft_strlen2(char **tab);
 
-//				gnl_tools
-int		ft_strlen(const char *s);
-char	*ft_strdup(const char *src);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(const char *s1, const char *s2);
-void	ft_strcpy(char *dest, const char *src);
+//			Render	 Tools
+double		ft_abs(double nb);
+int			get_pixel(t_img *data, int x, int y);
+void		my_mlx_pixel_put(t_img *data, int x, int y, int color);
+void		draw_buffer(t_trace_data *data);
 
-//				debug
-void	print_tab(char **tab);
-void	print_map_data(t_map_data *map_data);
+//				Gnl_Tools
+int			ft_strlen(const char *s);
+char		*ft_strdup(const char *src);
+char		*ft_strchr(const char *s, int c);
+char		*ft_strjoin(const char *s1, const char *s2);
+void		ft_strcpy(char *dest, const char *src);
 
-//			exit_manager
-void	free_tab(char **tab);
-int		exit_manager(t_data *data);
-int		exit_error_message(t_data *data, char *message);
+//				Debug
+void		print_tab(char **tab);
+void		print_map_data(t_map_data *map_data);
+
+//			Exit_Manager
+void		free_tab(char **tab);
+int			exit_manager(t_data *data);
+int			exit_error_message(t_data *data, char *message);
 
 //				Error
-int		is_position(char c);
-int		check_error(t_data *data, t_map_data map_data);
-void	free_tab_text_error(t_img **tab, int i);
-int		exit_error_text(t_data *data);
+int			check_color(char *str);
+int			is_position(char c);
+int			check_textures(char *str);
+int			exit_error_text(t_data *data);
+int			check_boder(char **map, int x, int y);
+int			check_error(t_data *data, t_map_data map_data);
+int			check_map(char **temp, int start, int x, int y);
+char		**tab_dup(char **tab);
+void		free_tab_text_error(t_img **tab, int i);
 
 //				Bonuses
-void	draw_minimap(t_data *data, t_minimap *minimap);
-void	calculate_map_size(t_data *data);
-void	draw_minimap_player(t_data *data);
-int		find_collectible_at(t_bonus_data *bonus_data, int map_x, int map_y);
-void	collect_item(t_data *data);
-void	open_close_thedoor(t_data *data);
-int		find_ennemy_at(t_bonus_data *bonus_data, int map_y, int map_x);
-void	ft_check_if_ennemy(t_data *data);
-int		is_near_green(int color, int tolerance);
-int		render_collec_ennemies(t_data *data, int tex_index2);
-void	init_trace_data(t_map_data *map_data,
-			t_trace_data *data, t_mlx_data *mlx_data);
-int		get_door_texture_animation(t_data *data);
-int		mouse_move(int x, int y, t_data *data);
-void	cinematic(t_data *data, int num_images, int delay_ms);
-void	enter_the_vortex(t_data *data);
-void	load_cinematic_images(t_data *data, char *folder_path, int num_images);
-void	playsound(char *file, int wait, int stop, int attenued);
-void	pkill_paplay(void);
-void	*resize_window(t_data *data, int new_width, int new_height);
-long	get_elapsed_time_ms(struct timeval start_time);
-void	free_cinematic_images(t_data *data, int num_images);
+void		draw_minimap(t_data *data, t_minimap *minimap);
+void		calculate_map_size(t_data *data);
+void		draw_minimap_player(t_data *data);
+int			find_collectible_at(t_bonus_data *bonus_data, int map_x, int map_y);
+void		collect_item(t_data *data);
+void		open_close_thedoor(t_data *data);
+int			find_ennemy_at(t_bonus_data *bonus_data, int map_y, int map_x);
+void		ft_check_if_ennemy(t_data *data);
+int			is_near_green(int color, int tolerance);
+int			render_collec_ennemies(t_data *data, int tex_index2);
+void		init_trace_data(t_map_data *map_data,
+				t_trace_data *data, t_mlx_data *mlx_data);
+int			get_door_texture_animation(t_data *data);
+int			mouse_move(int x, int y, t_data *data);
+void		cinematic(t_data *data, int num_images, int delay_ms);
+void		enter_the_vortex(t_data *data);
+void		load_cinematic_images(t_data *data, char *folder_path,
+				int num_images);
+void		playsound(char *file, int wait, int stop, int attenued);
+void		pkill_paplay(void);
+void		*resize_window(t_data *data, int new_width, int new_height);
+long		get_elapsed_time_ms(struct timeval start_time);
+void		free_cinematic_images(t_data *data, int num_images);
 
 //				Cinematic
 size_t		ft_strlcpy(char *dest, const char *src, size_t size);
@@ -420,14 +431,16 @@ char		*create_the_path(t_data *data, int i, char *file_name);
 int			load_part1(t_data *data, char **file_name, char **file_path,
 				int num_images);
 int			load_part2(t_data *data, int i);
-void		load_cinematic_images(t_data *data, char *folder_path, int num_images);
+void		load_cinematic_images(t_data *data,
+				char *folder_path, int num_images);
 long		get_elapsed_time_ms(struct timeval start_time);
 void		play_cinematic(t_data *data, int num_images, int delay_ms);
 void		cinematic(t_data *data, int num_images, int delay_ms);
 
 //				Minimap
 void		calculate_map_size(t_data *data);
-int			blend_colors(t_minimap *minimap, int color1, int color2, float alpha);
+int			blend_colors(t_minimap *minimap, int color1,
+				int color2, float alpha);
 void		draw_square(t_data *data, float x, float y, int color);
 void		draw_horizontal_line_within_bounds(t_data *data,
 				t_minimap *minimap, int y, int color);
@@ -455,10 +468,13 @@ void		camera_left(t_data *data);
 //				Minimap
 void		init_ray2b(t_data *data);
 void		init_ray2(t_data *data, int x);
-void		if_ennemy_loop2(t_data *data, int *tex_index2, int *collectible_index);
-void		if_collec_loop2(t_data *data, int *tex_index2, int *collectible_index);
+void		if_ennemy_loop2(t_data *data, int *tex_index2,
+				int *collectible_index);
+void		if_collec_loop2(t_data *data, int *tex_index2,
+				int *collectible_index);
 void		if_door_loop2(t_data *data);
-void		set_the_hit_loop2(t_data *data, int *tex_index2, int collectible_index,
+void		set_the_hit_loop2(t_data *data, int *tex_index2,
+				int collectible_index,
 				char current_tile);
 void		dda_loop2(t_data *data, int *tex_index2);
 void		calculate_distance2_part1(t_data *data);
@@ -467,9 +483,12 @@ void		render_column2(t_data *data, int x, int tex_index2);
 void		clear_buffer(t_data *data);
 void		init_ray_part1(t_data *data);
 void		init_ray(t_data *data, int x);
-void		if_ennemy_loop1(t_data *data, int *tex_index2, int *collectible_index);
-void		if_collec_loop1(t_data *data, int *tex_index2, int *collectible_index);
-void		set_the_hit_loop1(t_data *data, int *tex_index2, int collectible_index,
+void		if_ennemy_loop1(t_data *data, int *tex_index2,
+				int *collectible_index);
+void		if_collec_loop1(t_data *data, int *tex_index2,
+				int *collectible_index);
+void		set_the_hit_loop1(t_data *data, int *tex_index2,
+				int collectible_index,
 				char current_tile);
 void		dda_loop(t_data *data, int *tex_index2);
 void		calculate_distance1_part1(t_data *data);

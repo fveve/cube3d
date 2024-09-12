@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joncurci <joncurci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arafa <arafa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 11:05:12 by arafa             #+#    #+#             */
-/*   Updated: 2024/09/03 19:10:20 by joncurci         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:22:59 by arafa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,27 +71,16 @@ char	*extract_str(char *str)
 	return (ft_substr(str, x, y - x));
 }
 
-/*char	*ft_substr(char const *s, int start, int len)
+void	free_tab(char **tab)
 {
-	char	*tab;
-	int		x;
-	int		y;
+	int	x;
 
-	if (ft_strlen(s) <= start || s == NULL)
-		return (NULL);
-	else if (len >= ft_strlen(s))
-		tab = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	else
-		tab = malloc(sizeof(char) * (len + 1));
-	if (tab == NULL)
+	x = 0;
+	while (tab[x])
 	{
-		free(tab);
-		return (NULL);
+		free(tab[x]);
+		x++;
 	}
-	x = start;
-	y = 0;
-	while (s[x] && y < len)
-		tab[y++] = s[x++];
-	tab[y] = '\0';
-	return (tab);
-}*/
+	if (tab)
+		free(tab);
+}
